@@ -15,7 +15,7 @@ class RentalSizeResultExport implements WithMultipleSheets
             'studio',
             'concept.costumes',
             'secondConcept.costumes',
-            'extraCostume',
+            'extraCostumes',
             'graduation',
             'femaleAccessory',
             'maleAccessory',
@@ -80,9 +80,9 @@ class RentalSizeResultExport implements WithMultipleSheets
             );
         }
 
-        if ($this->rental->extraCostume) {
-            $costumes->push(
-                $this->rental->extraCostume
+        if ($this->rental->extraCostumes && $this->rental->extraCostumes->count()) {
+            $costumes = $costumes->merge(
+                $this->rental->extraCostumes
             );
         }
 

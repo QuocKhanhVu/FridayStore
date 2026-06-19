@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Tồn kho'); ?>
 
 <?php $__env->startSection('content'); ?>

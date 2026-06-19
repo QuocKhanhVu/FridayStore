@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Quản lý Concept'); ?>
 
 <?php $__env->startSection('content'); ?>

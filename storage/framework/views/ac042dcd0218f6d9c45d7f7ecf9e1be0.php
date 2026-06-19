@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Tạo đơn thuê'); ?>
 
 <?php $__env->startSection('content'); ?>

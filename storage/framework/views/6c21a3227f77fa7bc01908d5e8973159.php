@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Báo cáo'); ?>
 
 <?php $__env->startSection('content'); ?>
