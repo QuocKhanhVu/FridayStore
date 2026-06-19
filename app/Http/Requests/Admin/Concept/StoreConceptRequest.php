@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Concept;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreConceptRequest extends FormRequest
 {
@@ -44,7 +45,7 @@ class StoreConceptRequest extends FormRequest
             ],
 
             'costumes.*' => [
-                'exists:costumes,id'
+                Rule::exists('costumes', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()))
             ],
             'price' => [
                 'required',

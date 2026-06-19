@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Size;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSizeRequest extends FormRequest
 {
@@ -17,7 +18,7 @@ class StoreSizeRequest extends FormRequest
 
             'costume_id' => [
                 'required',
-                'exists:costumes,id'
+                Rule::exists('costumes', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()))
             ],
 
             'sizes' => [

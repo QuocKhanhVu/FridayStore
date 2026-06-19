@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\costumes;
+namespace App\Http\Controllers\Admin\costumes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Size\StoreSizeRequest;

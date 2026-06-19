@@ -12,6 +12,10 @@ class SizeRuleSeeder extends Seeder
     {
         DB::table('size_rules')->delete();
 
+        $oldWarehouseId = DB::table('users')
+            ->where('email', 'oldwarehouse@fridaystore.vn')
+            ->value('id');
+
         $rules = [];
 
         // Quy tắc size dùng chung cho S -> 6XL
@@ -75,6 +79,7 @@ class SizeRuleSeeder extends Seeder
             }
 
             $rules[] = [
+                'user_id'         => $oldWarehouseId,
                 'costume_size_id' => $size->id,
                 'height_from'     => $rule[0],
                 'height_to'       => $rule[1],

@@ -2,48 +2,77 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
+        'is_active',
+        'paid_until',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'paid_until' => 'datetime',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isWarehouse(): bool
+    {
+        return $this->role === 'warehouse';
+    }
+
+    public function isBlocked(): bool
+    {
+        if (! $this->is_active) {
+            return true;
+        }
+
+        if ($this->paid_until && now()->greaterThan($this->paid_until)) {
+            return true;
+        }
+
+        return false;
+    }
+    public function costumes()
+    {
+        return $this->hasMany(Costume::class);
+    }
+
+    public function concepts()
+    {
+        return $this->hasMany(Concept::class);
+    }
+
+    public function studios()
+    {
+        return $this->hasMany(Studio::class);
+    }
+
+    public function rentals()
+    {
+        return $this->hasMany(Rental::class);
+    }
+
 }

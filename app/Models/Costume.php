@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\BelongsToWarehouse;
 
 class Costume extends Model
 {
+    use BelongsToWarehouse;
+
     protected $fillable = 
     [
+        'user_id',
     'category_id',
     'code',
     'name',

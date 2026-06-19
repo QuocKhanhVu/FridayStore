@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Studio;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateStudioRequest extends FormRequest
 {
@@ -30,7 +31,7 @@ class UpdateStudioRequest extends FormRequest
             'phone' => [
                 'required',
                 'max:20',
-                'unique:studios,phone,' . $studioId
+                Rule::unique('studios', 'phone')->where(fn ($query) => $query->where('user_id', auth()->id()))->ignore($studioId)
             ],
 
             'email' => [

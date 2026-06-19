@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Inventory;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreInventoryRequest extends FormRequest
 {
@@ -17,12 +18,12 @@ class StoreInventoryRequest extends FormRequest
 
             'costume_id' => [
                 'required',
-                'exists:costumes,id'
+                Rule::exists('costumes', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()))
             ],
 
             'costume_size_id' => [
                 'required',
-                'exists:costume_sizes,id'
+                Rule::exists('costume_sizes', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()))
             ],
 
             'quantity' => [

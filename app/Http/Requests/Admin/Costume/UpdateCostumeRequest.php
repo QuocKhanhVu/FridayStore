@@ -14,7 +14,11 @@ class UpdateCostumeRequest extends FormRequest
 
     public function rules(): array
     {
-        $costumeId = $this->route('costume')->id;
+        $costumeId = $this->route('costume');
+
+        if (is_object($costumeId)) {
+            $costumeId = $costumeId->id;
+        }
 
         return [
 
@@ -25,7 +29,9 @@ class UpdateCostumeRequest extends FormRequest
 
             'code' => [
                 'required',
+                'max:50',
                 Rule::unique('costumes', 'code')
+                    ->where(fn ($query) => $query->where('user_id', auth()->id()))
                     ->ignore($costumeId)
             ],
 
@@ -36,18 +42,17 @@ class UpdateCostumeRequest extends FormRequest
 
             'gender' => [
                 'required',
-                'in:male,female,unisex'
+                Rule::in([
+                    'male',
+                    'female',
+                    'unisex'
+                ])
             ],
 
             'rental_price' => [
-                'required',
+                'nullable',
                 'numeric',
                 'min:0'
-            ],
-
-            'has_size' => [
-                'required',
-                'boolean'
             ],
 
             'image' => [
@@ -59,7 +64,7 @@ class UpdateCostumeRequest extends FormRequest
 
             'description' => [
                 'nullable',
-                'max:1000'
+                'string'
             ],
 
             'status' => [
@@ -74,19 +79,50 @@ class UpdateCostumeRequest extends FormRequest
     {
         return [
 
-            'category_id.required' => 'Vui lòng chọn loại trang phục',
+            'category_id.required' =>
+                'Vui lòng chọn loại trang phục',
 
-            'code.required' => 'Vui lòng nhập mã trang phục',
+            'category_id.exists' =>
+                'Loại trang phục không tồn tại',
 
-            'code.unique' => 'Mã trang phục đã tồn tại',
+            'code.required' =>
+                'Vui lòng nhập mã trang phục',
 
-            'name.required' => 'Vui lòng nhập tên trang phục',
+            'code.unique' =>
+                'Mã trang phục đã tồn tại',
 
-            'rental_price.required' => 'Vui lòng nhập giá thuê',
+            'code.max' =>
+                'Mã trang phục tối đa 50 ký tự',
 
-            'rental_price.numeric' => 'Giá thuê phải là số',
+            'name.required' =>
+                'Vui lòng nhập tên trang phục',
 
-            'image.image' => 'File tải lên phải là hình ảnh',
+            'name.max' =>
+                'Tên trang phục tối đa 255 ký tự',
+
+            'gender.required' =>
+                'Vui lòng chọn giới tính',
+
+            'gender.in' =>
+                'Giới tính không hợp lệ',
+
+            'rental_price.numeric' =>
+                'Giá thuê phải là số',
+
+            'rental_price.min' =>
+                'Giá thuê không được âm',
+
+            'image.image' =>
+                'File phải là hình ảnh',
+
+            'image.mimes' =>
+                'Ảnh chỉ hỗ trợ jpg, jpeg, png, webp',
+
+            'image.max' =>
+                'Ảnh tối đa 2MB',
+
+            'status.required' =>
+                'Vui lòng chọn trạng thái',
 
         ];
     }

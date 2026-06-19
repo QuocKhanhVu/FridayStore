@@ -270,6 +270,7 @@
                         <th rowspan="2">Studio</th>
                         <th>Trường/lớp</th>
                         <th rowspan="2">Sĩ số</th>
+                        <th rowspan="2">Cử nhân</th>
                         <th>Concept</th>
                         <th>Giá/HS</th>
                         <th>Tổng gốc</th>
@@ -328,7 +329,9 @@
                             <td rowspan="2">
                                 {{ $rental->student_count }}
                             </td>
-
+                            <td rowspan="2">
+                                {{ $rental->graduation->name ?? 'Không có' }}
+                            </td>
                             <td>
                                 {{ $rental->concept->name ?? '---' }}
                             </td>

@@ -19,6 +19,7 @@ class RevenueController extends Controller
                 'studio',
                 'concept',
                 'secondConcept',
+                'graduation',
                 'revenues.concept',
             ])
             ->whereIn('status', [

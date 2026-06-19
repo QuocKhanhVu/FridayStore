@@ -13,6 +13,10 @@ class InventorySeeder extends Seeder
     {
         DB::table('inventories')->delete();
 
+        $oldWarehouseId = DB::table('users')
+            ->where('email', 'oldwarehouse@fridaystore.vn')
+            ->value('id');
+
         $data = [];
 
         $sizes = CostumeSize::all();
@@ -20,6 +24,7 @@ class InventorySeeder extends Seeder
         foreach ($sizes as $size) {
 
             $data[] = [
+                'user_id' => $oldWarehouseId,
                 'costume_id' => $size->costume_id,
                 'costume_size_id' => $size->id,
                 'quantity' => 100,

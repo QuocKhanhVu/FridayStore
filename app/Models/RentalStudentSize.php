@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\BelongsToWarehouse;
 
 class RentalStudentSize extends Model
 {
+    use BelongsToWarehouse;
+
     protected $fillable = [
+        'user_id',
         'rental_student_id',
         'costume_id',
         'costume_size_id',

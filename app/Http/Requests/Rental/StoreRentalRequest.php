@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Rental;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRentalRequest extends FormRequest
 {
@@ -13,22 +14,26 @@ class StoreRentalRequest extends FormRequest
 
     public function rules(): array
     {
+        $ownedStudio = Rule::exists('studios', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()));
+        $ownedConcept = Rule::exists('concepts', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()));
+        $ownedCostume = Rule::exists('costumes', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()));
+
         return [
-            'studio_id' => 'required|exists:studios,id',
-            'concept_id' => 'required|exists:concepts,id',
-            'second_concept_id' => 'nullable|different:concept_id|exists:concepts,id',
-            'extra_costume_id' => 'nullable|exists:costumes,id',
-            'graduation_costume_id' => 'nullable|exists:costumes,id',
-            'female_accessory_id' => 'nullable|exists:costumes,id',
-            'male_accessory_id' => 'nullable|exists:costumes,id',
-            'school_name' => 'required|max:255',
-            'class_name' => 'required|max:255',
-            'shooting_date' => 'required|date',
-            'rental_date' => 'required|date',
-            'return_date' => 'required|date|after_or_equal:rental_date',
-            'note' => 'nullable|max:1000',
-            'extra_costume_ids' => 'nullable|array',
-            'extra_costume_ids.*' => 'exists:costumes,id',
+            'studio_id' => ['required', $ownedStudio],
+            'concept_id' => ['required', $ownedConcept],
+            'second_concept_id' => ['nullable', 'different:concept_id', $ownedConcept],
+            'extra_costume_id' => ['nullable', $ownedCostume],
+            'graduation_costume_id' => ['nullable', $ownedCostume],
+            'female_accessory_id' => ['nullable', $ownedCostume],
+            'male_accessory_id' => ['nullable', $ownedCostume],
+            'school_name' => ['required', 'max:255'],
+            'class_name' => ['required', 'max:255'],
+            'shooting_date' => ['required', 'date'],
+            'rental_date' => ['required', 'date'],
+            'return_date' => ['required', 'date', 'after_or_equal:rental_date'],
+            'note' => ['nullable', 'max:1000'],
+            'extra_costume_ids' => ['nullable', 'array'],
+            'extra_costume_ids.*' => [$ownedCostume],
         ];
     }
 

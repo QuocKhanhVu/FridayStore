@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Concept;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateConceptRequest extends FormRequest
 {
@@ -44,7 +45,7 @@ class UpdateConceptRequest extends FormRequest
             ],
 
             'costumes.*' => [
-                'exists:costumes,id'
+                Rule::exists('costumes', 'id')->where(fn ($query) => $query->where('user_id', auth()->id()))
             ],
             'price' => [
                 'required',

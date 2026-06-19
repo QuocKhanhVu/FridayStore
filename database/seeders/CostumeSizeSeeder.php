@@ -11,6 +11,10 @@ class CostumeSizeSeeder extends Seeder
     {
         DB::table('costume_sizes')->delete();
 
+        $oldWarehouseId = DB::table('users')
+            ->where('email', 'oldwarehouse@fridaystore.vn')
+            ->value('id');
+
         $data = [];
 
         // S -> 6XL
@@ -36,6 +40,7 @@ class CostumeSizeSeeder extends Seeder
         foreach ($normalCostumes as $costumeId) {
             foreach ($normalSizes as $index => $size) {
                 $data[] = [
+                    'user_id' => $oldWarehouseId,
                     'costume_id' => $costumeId,
                     'size_name' => $size,
                     'display_order' => $index + 1,
@@ -50,6 +55,7 @@ class CostumeSizeSeeder extends Seeder
         foreach ([17, 18, 24] as $costumeId) {
             foreach ($vestSizes as $index => $size) {
                 $data[] = [
+                    'user_id' => $oldWarehouseId,
                     'costume_id' => $costumeId,
                     'size_name' => $size,
                     'display_order' => $index + 1,

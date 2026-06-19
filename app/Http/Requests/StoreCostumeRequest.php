@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCostumeRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class StoreCostumeRequest extends FormRequest
                 'required',
                 'string',
                 'max:50',
-                'unique:costumes,code'
+                Rule::unique('costumes', 'code')->where(fn ($query) => $query->where('user_id', auth()->id()))
             ],
 
             'category_id' => [

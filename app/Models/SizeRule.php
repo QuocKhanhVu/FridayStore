@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\BelongsToWarehouse;
 
 class SizeRule extends Model
 {
+    use BelongsToWarehouse;
+
     protected $table = 'size_rules';
 
     protected $fillable = [
+        'user_id',
 
         'costume_size_id',
 

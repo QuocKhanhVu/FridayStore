@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\Inventory;
+namespace App\Http\Controllers\Admin\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Models\Costume;
