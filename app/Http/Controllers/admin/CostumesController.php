@@ -79,8 +79,7 @@ class CostumesController extends Controller
                     'image'         => $imagePath,
                     'description'   => $request->description,
                     'status'        => $request->status,
-                   
-                ]);
+                    ]);
 
                 DB::commit();
 
